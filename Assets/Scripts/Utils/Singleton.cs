@@ -28,6 +28,14 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         if (instance == null)
         {
             instance = this as T;
+            
+            // DontDestroyOnLoad를 적용하기 전에 루트 오브젝트인지 확인
+            if (transform.parent != null)
+            {
+                // 자식 오브젝트라면 부모에서 분리
+                transform.SetParent(null);
+            }
+            
             DontDestroyOnLoad(this.gameObject);
         }
         else if(instance != this)
