@@ -1,4 +1,13 @@
-using UnityEngine;
+public enum GameState
+{
+    None,
+    Tutorial,
+    Playing,
+    Pause,
+    Victory,
+    Defeat,
+    GameOver,
+}
 
 public enum UIType
 {
@@ -9,4 +18,16 @@ public enum SceneType
 {
     LobbyScene,
     GameScene,
+}
+
+public enum Area
+{
+    Entrance,   // 마을 입구
+    Crossroad,  // 갈림길
+    Cowshed,    // 외양간
+    Greenhouse, // 비닐하우스
+    HolyTree,   // 서낭당
+    VillageHall, // 마을회관
+    VillageHeadHouse, // 이장의집
+    AreaMaxCount,   // 최대 영역 개수
 }

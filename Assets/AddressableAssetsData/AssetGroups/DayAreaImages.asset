@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: DayAreaImages
+  m_EditorClassIdentifier: 
+  m_GroupName: DayAreaImages
+  m_GUID: c9c47d3514a3b17429b2b6c73189add4
+  m_SerializeEntries:
+  - m_GUID: 04776d3360b2a1a45bea57483f93bc36
+    m_Address: Image/Area/Day/VillageHall_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0ebba5922d0842242b664dcdab428f09
+    m_Address: Image/Area/Night/VillageHall_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 35c3acebe63ac4b498ee0027088dcf8e
+    m_Address: Image/Area/Night/Cowshed_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5e72a6a94ef5b6b47845f3444530f59c
+    m_Address: Image/Area/Day/Cowshed_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c0f997eeb1ceeb4fb3f0cc4b640e54a
+    m_Address: Image/Area/Night/Crossroad_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 72792dfe21b2c0a41b99b3e2e749e336
+    m_Address: Image/Area/Day/Crossroad_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81cfebb9f4702a3418ecd987d7d9ffc1
+    m_Address: Image/Area/Day/Entrance_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fb137da2b030e844863da5cad9ea0d8
+    m_Address: Image/Area/Day/Greenhouse_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a5fe9aa3bfca42a43be08bd6627c934e
+    m_Address: Image/Area/Night/Entrance_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a772a435f3790674394bcbd1b753482a
+    m_Address: Image/Area/Day/VillageHeadHouse_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ad63ac718218eec4e9dc11162adff2b4
+    m_Address: Image/Area/Night/VillageHeadHouse_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8aa069d287657d419d124cd08736dee
+    m_Address: Image/Area/Night/Greenhouse_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d6f42c2730408f6478cf16fa098fc5ce
+    m_Address: Image/Area/Day/HolyTree_Day
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - DayLightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7cceab09e8acaa48b907f22ae22e345
+    m_Address: Image/Area/Night/HolyTree_Night
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 356b7a39294a3474298455ad346ae67c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 32055057bcc0edf4f9949bc0668b8582, type: 2}
+    - {fileID: 11400000, guid: df7a6dee2c4416141a218316588627ff, type: 2}
