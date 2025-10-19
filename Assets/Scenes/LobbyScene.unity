@@ -2727,7 +2727,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46081d00fec2754faad193c5b67d9a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaImage: {fileID: 0}
+  fadeImage: {fileID: 0}
+  tutorialPopup: {fileID: 0}
+  victoryPopup: {fileID: 0}
+  defeatPopup: {fileID: 0}
+  timeText: {fileID: 0}
+  dayText: {fileID: 0}
+  currentAreaText: {fileID: 0}
+  currentAreaImage: {fileID: 0}
 --- !u!1 &1364968359
 GameObject:
   m_ObjectHideFlags: 0

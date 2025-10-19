@@ -8,8 +8,8 @@ using System;
 public class ResourceManager : Singleton<ResourceManager>
 {
     // Area 이미지 목록
-    private Dictionary<Area, Sprite> dayLightAreaImageList = new Dictionary<Area, Sprite>();
-    private Dictionary<Area, Sprite> nightAreaImageList = new Dictionary<Area, Sprite>();
+    private Dictionary<AreaType, Sprite> dayLightAreaImageList = new Dictionary<AreaType, Sprite>();
+    private Dictionary<AreaType, Sprite> nightAreaImageList = new Dictionary<AreaType, Sprite>();
     
     // Addressable 핸들 저장 (메모리 해제용)
     private List<AsyncOperationHandle> loadedHandles = new List<AsyncOperationHandle>();
@@ -22,15 +22,15 @@ public class ResourceManager : Singleton<ResourceManager>
     
     #region Public Properties
     public bool IsAreaImagesLoaded => isAreaImagesLoaded;
-    public Dictionary<Area, Sprite> DayLightAreaImageList => dayLightAreaImageList;
-    public Dictionary<Area, Sprite> NightAreaImageList => nightAreaImageList;
+    public Dictionary<AreaType, Sprite> DayLightAreaImageList => dayLightAreaImageList;
+    public Dictionary<AreaType, Sprite> NightAreaImageList => nightAreaImageList;
     #endregion
     
     #region Area Images Management
     /// <summary>
     /// 모든 Area 이미지들을 비동기로 로드합니다.
     /// </summary>
-    public async Task LoadAreaImagesAsync()
+    public async System.Threading.Tasks.Task LoadAreaImagesAsync()
     {
         if (isAreaImagesLoaded)
         {
@@ -57,7 +57,7 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// 특정 Area의 낮/밤 이미지를 가져옵니다.
     /// </summary>
-    public Sprite GetAreaImage(Area area, bool isDayLight)
+    public Sprite GetAreaImage(AreaType area, bool isDayLight)
     {
         if (!isAreaImagesLoaded)
         {
@@ -78,7 +78,7 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// Area 이미지가 로드되었는지 확인합니다.
     /// </summary>
-    public bool HasAreaImage(Area area, bool isDayLight)
+    public bool HasAreaImage(AreaType area, bool isDayLight)
     {
         if (!isAreaImagesLoaded) return false;
         
@@ -101,7 +101,7 @@ public class ResourceManager : Singleton<ResourceManager>
             loadedHandles.Add(handle);
             
             var asset = await handle.Task;
-            Debug.Log($"ResourceManager: 에셋 로드 완료 - {address}");
+            //Debug.Log($"ResourceManager: 에셋 로드 완료 - {address}");
             return asset;
         }
         catch (Exception e)
@@ -134,13 +134,13 @@ public class ResourceManager : Singleton<ResourceManager>
     #endregion
     
     #region Private Methods
-    private async Task LoadAllAreaImages()
+    private async System.Threading.Tasks.Task LoadAllAreaImages()
     {
-        var loadTasks = new List<Task>();
+        var loadTasks = new List<System.Threading.Tasks.Task>();
         
-        foreach (Area areaType in System.Enum.GetValues(typeof(Area)))
+        foreach (AreaType areaType in System.Enum.GetValues(typeof(AreaType)))
         {
-            if (areaType == Area.AreaMaxCount) continue;
+            if (areaType == AreaType.AreaMaxCount) continue;
             
             string areaName = areaType.ToString();
             
@@ -154,10 +154,10 @@ public class ResourceManager : Singleton<ResourceManager>
         }
         
         // 모든 이미지 로딩 완료 대기
-        await Task.WhenAll(loadTasks);
+        await System.Threading.Tasks.Task.WhenAll(loadTasks);
     }
     
-    private async Task LoadAreaImageAsync(Area areaType, string areaName, bool isDayLight)
+    private async System.Threading.Tasks.Task LoadAreaImageAsync(AreaType areaType, string areaName, bool isDayLight)
     {
         string address = isDayLight 
             ? $"Image/Area/Day/{areaName}_Day"
@@ -172,7 +172,7 @@ public class ResourceManager : Singleton<ResourceManager>
             else
                 nightAreaImageList[areaType] = sprite;
                 
-            Debug.Log($"ResourceManager: {(isDayLight ? "낮" : "밤")} 이미지 로드 완료 - {areaName}");
+            //Debug.Log($"ResourceManager: {(isDayLight ? "낮" : "밤")} 이미지 로드 완료 - {areaName}");
         }
         else
         {

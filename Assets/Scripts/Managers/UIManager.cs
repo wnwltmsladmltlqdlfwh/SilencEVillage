@@ -7,21 +7,23 @@ using System.Threading.Tasks;
 
 public class UIManager : Singleton<UIManager>
 {
-
     [SerializeField] private Image fadeImage;
 
     [Header("Popups")]
     [SerializeField] private GameObject tutorialPopup;
     [SerializeField] private GameObject victoryPopup;
     [SerializeField] private GameObject defeatPopup;
+    [SerializeField] private CraftingPanel craftingPopup;
 
     [Header("Texts")]
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text dayText;
     [SerializeField] private TMP_Text currentAreaText;
 
+    [Header("Images")]
     [SerializeField] private Image currentAreaImage;
     private bool isMoving = false;
+    public bool IsMoving => isMoving;
 
     private Dictionary<UIType, GameObject> uiList = new Dictionary<UIType, GameObject>();
 
@@ -41,6 +43,7 @@ public class UIManager : Singleton<UIManager>
     }
 
 
+    #region Popup UI
     public void ShowTutorialPopup()
     {
         tutorialPopup.SetActive(true);
@@ -62,6 +65,18 @@ public class UIManager : Singleton<UIManager>
         if (defeatPopup != null)
             defeatPopup.SetActive(true);
     }
+
+    public void ShowCraftingPopup()
+    {
+        craftingPopup.gameObject.SetActive(true);
+        craftingPopup.InitializeCraftingPopup(ItemManager.Instance.SelectedInventoryIndex);
+    }
+
+    public void CloseCraftingPopup()
+    {
+        craftingPopup.gameObject.SetActive(false);
+    }
+    #endregion
 
     public void UpdateTimerDisplay(float currentTime, float maxTime)
     {
@@ -101,7 +116,7 @@ public class UIManager : Singleton<UIManager>
             TimeManager.Instance.OnTimeUpdated += OnTimeUpdated;
             TimeManager.Instance.OnPhaseChanged += OnPhaseChanged;
             TimeManager.Instance.OnDayNightChanged += (bool isDayLight) => SetCurrentAreaImage(isDayLight);
-            GameManager.Instance.OnAreaChanged += (Area area) => SetCurrentAreaImage(area);
+            GameManager.Instance.OnAreaChanged += (AreaType areaType) => SetCurrentAreaImage(areaType);
         }
     }
 
@@ -113,7 +128,7 @@ public class UIManager : Singleton<UIManager>
             TimeManager.Instance.OnTimeUpdated -= OnTimeUpdated;
             TimeManager.Instance.OnPhaseChanged -= OnPhaseChanged;
             TimeManager.Instance.OnDayNightChanged -= (bool isDayLight) => SetCurrentAreaImage(isDayLight);
-            GameManager.Instance.OnAreaChanged -= (Area area) => SetCurrentAreaImage(area);
+            GameManager.Instance.OnAreaChanged -= (AreaType areaType) => SetCurrentAreaImage(areaType);
         }
     }
 
@@ -147,17 +162,19 @@ public class UIManager : Singleton<UIManager>
 
     public void SetCurrentAreaImage(bool isDayLight)
     {
-        Area currentArea = GameManager.Instance.currentAreaType;
+        AreaType currentArea = AreaManager.Instance.PlayerCurrentArea.AreaType;
+
         SetAreaImageByType(currentArea, isDayLight);
     }
 
-    public void SetCurrentAreaImage(Area area)
+    public void SetCurrentAreaImage(AreaType area)
     {
-        bool isDayLight = TimeManager.Instance.IsDayLight;
+        bool isDayLight = TimeManager.Instance.IsDayTime;
+
         SetAreaImageByType(area, isDayLight);
     }
 
-    private void SetAreaImageByType(Area area, bool isDayLight)
+    private void SetAreaImageByType(AreaType area, bool isDayLight)
     {
         // ResourceManager에서 이미지 가져오기
         Sprite targetSprite = ResourceManager.Instance.GetAreaImage(area, isDayLight);
@@ -189,7 +206,7 @@ public class UIManager : Singleton<UIManager>
         RectTransform areaRect = currentAreaImage.rectTransform;
         Vector2 originalPosition = areaRect.anchoredPosition;
 
-        float moveDistance = 10f;
+        float moveDistance = 8f;
         float duration = 0.4f;
 
         // 위 아래로 이동 후 원래 위치로 돌아옴

@@ -12,9 +12,10 @@ public class TimeManager : Singleton<TimeManager>
     public System.Action<bool> OnDayNightChanged;
     public System.Action<int> OnPhaseChanged;
 
-    // 프로퍼티
     public float CurrentTime => currentTime;
-    public bool IsDayLight
+    public int CurrentPhase =>  Mathf.Clamp(Mathf.FloorToInt(currentTime / 150f) + 1, 1, 5);
+    
+    public bool IsDayTime
     {
         get
         {
@@ -78,7 +79,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private IEnumerator TimerCoroutine()
     {
-        bool previousDayNight = IsDayLight;
+        bool previousDayNight = IsDayTime;
 
         while (isTimerRunning)
         {
@@ -89,7 +90,7 @@ public class TimeManager : Singleton<TimeManager>
             OnTimeUpdated?.Invoke(currentTime);
 
             // 낮/밤 상태 체크
-            bool currentDayNight = IsDayLight;
+            bool currentDayNight = IsDayTime;
             if (currentDayNight != previousDayNight)
             {
                 OnDayNightChanged?.Invoke(currentDayNight);

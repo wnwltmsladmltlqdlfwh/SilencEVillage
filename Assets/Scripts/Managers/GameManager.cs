@@ -8,13 +8,12 @@ public class GameManager : Singleton<GameManager>
     
     [Header("Game State")]
     public GameState currentGameState = GameState.None;
-    public Area currentAreaType;
     private bool isGameActive = false;
     private int currentPhase = 1;
     
     [Header("Events")]
     public System.Action<GameState> OnGameStateChanged;
-    public System.Action<Area> OnAreaChanged;
+    public System.Action<AreaType> OnAreaChanged;
     public System.Action<int> OnPhaseChanged;
     public System.Action OnGameVictory;
     public System.Action OnGameDefeat;
@@ -33,7 +32,6 @@ public class GameManager : Singleton<GameManager>
     private void InitializeGame()
     {
         currentGameState = GameState.None;
-        currentAreaType = Area.Entrance;
         currentPhase = 1;
         isGameActive = false;
     }
@@ -122,16 +120,7 @@ public class GameManager : Singleton<GameManager>
         return true;
     }
     
-    // 4-2. 몬스터와 충돌 시 패배
-    public void OnMonsterCollision()
-    {
-        if (currentGameState == GameState.Playing)
-        {
-            GameDefeat();
-        }
-    }
-    
-    private void GameVictory()
+    public void GameVictory()
     {
         currentGameState = GameState.Victory;
         isGameActive = false;
@@ -146,7 +135,7 @@ public class GameManager : Singleton<GameManager>
         StartCoroutine(ShowVictoryAndReturnToLobby());
     }
     
-    private void GameDefeat()
+    public void GameDefeat()
     {
         currentGameState = GameState.Defeat;
         isGameActive = false;
@@ -204,12 +193,6 @@ public class GameManager : Singleton<GameManager>
             TimeManager.Instance.ResumeGameTimer();
             OnGameStateChanged?.Invoke(currentGameState);
         }
-    }
-
-    public void SetCurrentArea(Area area)
-    {
-        currentAreaType = area;
-        OnAreaChanged?.Invoke(area);
     }
     
     // 게임 리셋
