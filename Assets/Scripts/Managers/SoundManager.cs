@@ -20,7 +20,7 @@ public class SoundManager : Singleton<SoundManager>
 
     [SerializeField] private AudioClip[] _bgmClips;
     [SerializeField] private AudioClip[] _sfxClips;
-    [SerializeField] private AudioClip[] _voiceClips;
+    [SerializeField] private AudioClip[] _voiceClips_Jangsanbeom;
 
     [SerializeField] private AudioSource _bgmSource;
     [SerializeField] private AudioSource _sfxSource;
@@ -82,14 +82,14 @@ public class SoundManager : Singleton<SoundManager>
         _sfxSource.PlayOneShot(_sfxClips[(int)sfxType]);
     }
 
-    public void PlayVoice()
+    public void PlayVoice_Jangsanbeom()
     {
-        int random = UnityEngine.Random.Range(0, _voiceClips.Length);
-        _voiceSource.PlayOneShot(_voiceClips[random]);
+        int random = UnityEngine.Random.Range(0, _voiceClips_Jangsanbeom.Length);
+        _voiceSource.PlayOneShot(_voiceClips_Jangsanbeom[random]);
     }
 
     public void TestVoice()
     {
-        PlayVoice();
+        PlayVoice_Jangsanbeom();
     }
 }

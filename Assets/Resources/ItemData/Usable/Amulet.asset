@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 222385d2434b05b439eb14d8b42213e4, type: 3}
-  m_Name: Item_RepairKit
+  m_Script: {fileID: 11500000, guid: 00f08ea42fef8f043a9402d9077ff93e, type: 3}
+  m_Name: Amulet
   m_EditorClassIdentifier: 
-  ItemType: 7
-  ItemName: Repair kit
+  ItemType: 6
+  ItemName: Amulet
   ItemDescription: 
-  ItemIcon: {fileID: 0}
+  ItemIcon: {fileID: -3118982390806965729, guid: 6ea49ea726853024d8d925f8800c452b, type: 3}

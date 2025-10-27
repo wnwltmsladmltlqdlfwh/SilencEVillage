@@ -25,6 +25,9 @@ public class EnemyBase : MonoBehaviour
     // 상태패턴 머신
     private FSM fsm;
     private Dictionary<EnemyState, BaseState> stateDict = new Dictionary<EnemyState, BaseState>();
+    
+    // Behavior 시스템
+    private IEnemyBehavior enemyBehavior;
 
     public void InitEnemyData()
     {
@@ -32,6 +35,7 @@ public class EnemyBase : MonoBehaviour
         enemyData = enemyData.Clone();
 
         InitStateMachine();
+        InitBehavior();
     }
 
     public void InitStateMachine()
@@ -84,5 +88,48 @@ public class EnemyBase : MonoBehaviour
     {
         if(LuredAreaList.Contains(targetAreaType))
             LuredAreaList.Remove(targetAreaType);
+    }
+    
+    // Behavior 시스템 초기화
+    private void InitBehavior()
+    {
+        switch(enemyData.EnemyType)
+        {
+            case EnemyType.Jangsanbeom:
+                enemyBehavior = new JangsanbeomBehavior(enemyData);
+                break;
+            case EnemyType.Seonhju:
+                // SeonhjuBehavior 구현 예정
+                break;
+            case EnemyType.Jibakryeong:
+                // JibakryeongBehavior 구현 예정
+                break;
+            case EnemyType.Agwi:
+                // AgwiBehavior 구현 예정
+                break;
+        }
+
+        OnNearByPlayer += TriggerNearByPlayer;
+    }
+    
+    // Behavior 메서드들
+    public void TriggerNearByPlayer()
+    {
+        enemyBehavior?.OnNearByPlayer();
+    }
+    
+    public void TriggerPlayerDetected()
+    {
+        enemyBehavior?.OnPlayerDetected();
+    }
+    
+    public void TriggerAreaEntered(AreaType areaType)
+    {
+        enemyBehavior?.OnAreaEntered(areaType);
+    }
+    
+    public void TriggerAreaExited(AreaType areaType)
+    {
+        enemyBehavior?.OnAreaExited(areaType);
     }
 }

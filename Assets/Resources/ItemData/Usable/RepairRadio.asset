@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 222385d2434b05b439eb14d8b42213e4, type: 3}
-  m_Name: Item_Pencil
+  m_Script: {fileID: 11500000, guid: e229bfad0803de64cb2c6488c6a0cab2, type: 3}
+  m_Name: RepairRadio
   m_EditorClassIdentifier: 
-  ItemType: 1
-  ItemName: Pencil
+  ItemType: 7
+  ItemName: RepairRadio
   ItemDescription: 
-  ItemIcon: {fileID: 0}
+  ItemIcon: {fileID: 6815889607243732041, guid: 9ff90df9726925343b87d0e61275491c, type: 3}

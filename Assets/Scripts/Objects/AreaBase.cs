@@ -2,40 +2,35 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 
-
-[CreateAssetMenu(fileName = "AreaBase", menuName = "AreaBase", order = 0)]
-public class AreaBase : ScriptableObject
+public class AreaBase
 {
     // 영역 정보
-    [SerializeField] private AreaType areaType;
-    public AreaType AreaType => areaType;
-    public string ObjectName => $"Area_{areaType.ToString()}";
+    public AreaType AreaType { get; private set; }
+    public string AreaName;
 
 
     // 설치 오브젝트
     private bool isSoundLureActive = false;
-    public bool IsSoundLureActive
-    {
-        get { return isSoundLureActive; }
-    }
-
     private bool isDirectionLureActive = false;
-    public bool IsDirectionLureActive
-    {
-        get { return isDirectionLureActive; }
-    }
+    public bool IsSoundLureActive => isSoundLureActive;
+    public bool IsDirectionLureActive => isDirectionLureActive;
 
-    // 적
+    // 적 정보 관리
     private List<EnemyBase> enemyObjectList = new List<EnemyBase>();
+    public int EnemyObjectCount => enemyObjectList.Count;
 
-    public void InitArea()
+
+    public AreaBase(AreaType areaType)
     {
+        this.AreaType = areaType;
+        this.AreaName = areaType.ToString();
+        
         enemyObjectList.Clear();
         isSoundLureActive = false;
         isDirectionLureActive = false;
     }
-
 
     public void AddEnemy(EnemyBase enemy) => enemyObjectList.Add(enemy);
     public void RemoveEnemy(EnemyBase enemy) { if (enemyObjectList.Contains(enemy)) enemyObjectList.Remove(enemy); }
@@ -43,10 +38,12 @@ public class AreaBase : ScriptableObject
     public void SetSoundLureActive(bool isActive)
     {
         isSoundLureActive = isActive;
+        Debug.Log($"Sound Lure Active: {isActive}");
     }
     
     public void SetDirectionLureActive(bool isActive)
     {
         isDirectionLureActive = isActive;
+        Debug.Log($"Direction Lure Active: {isActive}");
     }
 }

@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -14,6 +13,7 @@ public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     [SerializeField] private AreaType areaType;
     public AreaType AreaType => areaType;
     [SerializeField] private TextMeshProUGUI areaNameText;
+    [SerializeField] private TextMeshProUGUI areaEnemyCountText;
     
     // 지연 초기화를 위한 매니저 참조
     private AreaManager _areaManager;
@@ -33,7 +33,7 @@ public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private void Awake()
     {
         outline = GetComponent<Outline>();
-        areaNameText = GetComponentInChildren<TextMeshProUGUI>();
+
         if (areaNameText != null)
         {
             areaNameText.text = areaType.ToString();
@@ -45,7 +45,7 @@ public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
         currentColor = new Color(0f, 1f, 0f, 1f);
     }
 
-    public void UnfoldTheMap()
+    public void SetupInfoTheArea()
     {
         AreaType currentArea = areaManager.PlayerCurrentArea.AreaType;
         if (areaManager.IsMovable(currentArea, areaType))
@@ -60,6 +60,11 @@ public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
         {
             outline.effectColor = unableToMoveColor;
         }
+
+        if(areaManager.GetAreaObject(areaType).EnemyObjectCount > 0)
+            areaEnemyCountText.text = $"{areaManager.GetAreaObject(areaType).EnemyObjectCount}";
+        else
+            areaEnemyCountText.text = " ";
     }
 
     public void OnPointerEnter(PointerEventData eventData)

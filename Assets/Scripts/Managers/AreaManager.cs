@@ -39,10 +39,17 @@ public class AreaManager : Singleton<AreaManager>
     {
         InitAreaManager();
     }
-
-
+    
     public void InitAreaManager()
     {
+        // 지역 정보 초기화
+        areaDictionary.Clear();
+        foreach(var areaType in Enum.GetValues(typeof(AreaType)))
+        {
+            areaDictionary.Add((AreaType)areaType, new AreaBase((AreaType)areaType));
+        }
+
+        // 플레이어 현재 영역 설정
         if(playerCurrentAreaType != AreaType.Entrance)
             SetPlayerArea(AreaType.Entrance);
     }

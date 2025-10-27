@@ -13,14 +13,14 @@ public class MoveState : BaseState
 
     public override void Enter()
     {
-        Debug.Log($"{enemy.EnemyData.EnemyName}이 플레이어를 추격하기 시작했습니다.");
+        Debug.Log($"{enemy.EnemyData.EnemyName}이 움직이기 시작했습니다.");
         playerArea = AreaManager.Instance.PlayerCurrentArea;
         chaseTimer = 0f;
     }
 
     public override void Exit()
     {
-        Debug.Log($"{enemy.EnemyData.EnemyName}이 플레이어 추격을 중단했습니다.");
+        Debug.Log($"{enemy.EnemyData.EnemyName}이 움직임을 중단했습니다.");
         playerArea = null;
         chaseTimer = 0f;
     }
@@ -70,41 +70,28 @@ public class MoveState : BaseState
         if (IsNearByPlayer())   // 플레이어가 1칸 이내에 있으면 플레이어 영역으로 이동
         {
             MoveToArea(AreaManager.Instance.PlayerCurrentArea.AreaType);
+            Debug.Log($"{enemy.EnemyData.EnemyName}이 플레이어와 가까워 {AreaManager.Instance.PlayerCurrentArea.AreaType} 영역으로 이동했습니다.");
             chaseTimer = 0f;
             return;
         }
 
         if (OnLuredArea())   // 미끼 영역 리스트가 있으면 가장 첫번째 미끼 영역으로 이동
         {
-            /*
-            AreaType luredAreaType = enemy.LuredAreaList[0];
-            MoveToArea(luredAreaType);
-
-            AreaBase arrivedArea = AreaManager.Instance.GetAreaObject(luredAreaType);
-            if (arrivedArea.IsSoundLureActive) // 미끼 영역이 활성화 되어 있으면 비활성화 후 모든 적에게 미끼 영역 비활성화 신호 전송
-            {
-                EnemyManager.Instance.DeactivateSoundLure(luredAreaType);
-                arrivedArea.SetSoundLureActive(false);
-            }
-            else
-            {
-                enemy.RemoveLuredArea(luredAreaType);
-            }
-
-            chaseTimer = 0f;
-            return;
-            */
+            Debug.Log($"{enemy.EnemyData.EnemyName}이 미끼 영역인 {enemy.LuredAreaList[0]} 영역으로 이동했습니다.");
             LuredMove();
         }
 
         if (isChase)   // 추격 모드
         {
             ChaseMove();
+            Debug.Log($"{enemy.EnemyData.EnemyName}이 플레이어를 추격하여 {AreaManager.Instance.PlayerCurrentArea.AreaType} 영역으로 이동했습니다.");
         }
         else   // 랜덤 목표 이동 모드
         {
             RandomMove();
+            Debug.Log($"{enemy.EnemyData.EnemyName}이 임의로 {enemy.CurrentArea.AreaType} 영역으로 이동했습니다.");
         }
+
         chaseTimer = 0f;
     }
 

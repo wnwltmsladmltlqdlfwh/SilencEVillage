@@ -40,6 +40,7 @@ public class TimeManager : Singleton<TimeManager>
             currentTime = 0f;
             isTimerRunning = true;
             timerCoroutine = StartCoroutine(TimerCoroutine());
+            Debug.Log("게임 타이머 시작");
         }
     }
 

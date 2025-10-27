@@ -13,6 +13,7 @@ public class InventoryPanel : MonoBehaviour
     public void UpdateInventory()
     {
         ItemBaseSO[] inventoryItems = ItemManager.Instance.GetInventoryItems();
+        
         for(int i = 0; i < slots.Length; i++)
         {
             if(inventoryItems[i] != null)

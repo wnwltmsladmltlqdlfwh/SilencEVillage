@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 222385d2434b05b439eb14d8b42213e4, type: 3}
-  m_Name: Item_BrokenRadio
+  m_Name: Item_Paper
   m_EditorClassIdentifier: 
-  ItemType: 5
-  ItemName: BrokenRadio
-  ItemDescription: 
-  ItemIcon: {fileID: 0}
+  ItemType: 0
+  ItemName: Paper
+  ItemDescription: this is Paper
+  ItemIcon: {fileID: -7874428348345426807, guid: a8fada7c754629342a377d6af624e9c1, type: 3}

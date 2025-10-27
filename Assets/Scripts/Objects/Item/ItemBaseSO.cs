@@ -3,16 +3,16 @@ using UnityEngine;
 
 public enum ItemType
 {
-    // 종이 관련 아이템
+    // 재료 아이템 (드랍 아이템)
     Paper,
     Pencil,
     Brush,
+    BrokenRadio,
+    RepairKit,
+    // 사용(제작) 아이템
     Note,
     Amulet,
-    // 기계 관련 아이템
-    BrokenRadio,
     RepairedRadio,
-    RepairKit,
     // 최대 아이템 개수
     ItemMaxCount,
 }
@@ -28,7 +28,24 @@ public class ItemBaseSO : ScriptableObject
 
     public ItemBaseSO Clone()
     {
-        ItemBaseSO clone = CreateInstance<ItemBaseSO>();
+        ItemBaseSO clone;
+
+        // 아이템 타입에 따라 아이템 클론 생성
+        switch (this.ItemType)
+        {
+            case ItemType.Note:
+                clone = CreateInstance<NoteItem>();
+                break;
+            case ItemType.Amulet:
+                clone = CreateInstance<AmuletItem>();
+                break;
+            case ItemType.RepairedRadio:
+                clone = CreateInstance<RepairRadioItem>();
+                break;
+            default:
+                clone = CreateInstance<ItemBaseSO>();
+                break;
+        }
 
         clone.ItemType = this.ItemType;
         clone.ItemName = this.ItemName;

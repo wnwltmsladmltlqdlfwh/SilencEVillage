@@ -41,7 +41,7 @@ public class MovementMapPanel : MonoBehaviour
         GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0f);
         foreach (var button in movementMapButtons)
         {
-            button.UnfoldTheMap();
+            button.SetupInfoTheArea();
         }
     }
 

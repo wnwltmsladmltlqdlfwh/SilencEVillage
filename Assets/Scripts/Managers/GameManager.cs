@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor.Scripting;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,11 +11,15 @@ public class GameManager : Singleton<GameManager>
     public GameState currentGameState = GameState.None;
     private bool isGameActive = false;
     private int currentPhase = 1;
+    private bool isPlayerProtected = false;
+    [SerializeField] private float playerProtectionDuration = 10f;
+    public bool IsPlayerProtected => isPlayerProtected;
     
     [Header("Events")]
     public System.Action<GameState> OnGameStateChanged;
     public System.Action<AreaType> OnAreaChanged;
     public System.Action<int> OnPhaseChanged;
+    public System.Action<int> OnPlayerProtectionChanged;
     public System.Action OnGameVictory;
     public System.Action OnGameDefeat;
     
@@ -22,11 +27,9 @@ public class GameManager : Singleton<GameManager>
     {
         InitializeGame();
         SubscribeToTimeManager();
-    }
-    
-    private void OnDestroy()
-    {
-        UnsubscribeFromTimeManager();
+
+        StartGameplay();
+        EnemyManager.Instance.SetupEnemyList();
     }
     
     private void InitializeGame()
@@ -34,6 +37,7 @@ public class GameManager : Singleton<GameManager>
         currentGameState = GameState.None;
         currentPhase = 1;
         isGameActive = false;
+        isPlayerProtected = false;
     }
     
     private void SubscribeToTimeManager()
@@ -43,7 +47,7 @@ public class GameManager : Singleton<GameManager>
         TimeManager.Instance.OnPhaseChanged += OnPhaseChangedFromTimeManager;
     }
     
-    private void UnsubscribeFromTimeManager()
+    private void UnsubscribeEvents()
     {
         // 이벤트 구독 해제
         if (TimeManager.Instance != null)
@@ -201,6 +205,28 @@ public class GameManager : Singleton<GameManager>
         InitializeGame();
         TimeManager.Instance.ResetTimer();
     }
+
+    // 플레이어 보호 상태 설정
+    public void StartPlayerProtection()
+    {
+        if(isPlayerProtected) return;
+
+        isPlayerProtected = true;
+        _= StartCoroutine(ProtectionCoroutine());
+    }
+
+    // 플레이어 보호 코루틴
+    private IEnumerator ProtectionCoroutine()
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < playerProtectionDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            OnPlayerProtectionChanged?.Invoke((int)(playerProtectionDuration - elapsedTime));
+            yield return null;
+        }
+        isPlayerProtected = false;
+    }
     
     // 현재 게임 상태 확인
     public bool IsGamePlaying()
@@ -211,5 +237,10 @@ public class GameManager : Singleton<GameManager>
     public int GetCurrentPhase()
     {
         return currentPhase;
+    }
+    
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
     }
 }

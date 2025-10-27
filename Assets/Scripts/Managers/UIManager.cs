@@ -13,19 +13,29 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject tutorialPopup;
     [SerializeField] private GameObject victoryPopup;
     [SerializeField] private GameObject defeatPopup;
-    [SerializeField] private CraftingPanel craftingPopup;
+    [SerializeField] private ItemOptionPanel craftingPopup;
 
     [Header("Texts")]
     [SerializeField] private TMP_Text timeText;
     [SerializeField] private TMP_Text dayText;
     [SerializeField] private TMP_Text currentAreaText;
+    [SerializeField] private TMP_Text playerProtectionText;
 
     [Header("Images")]
     [SerializeField] private Image currentAreaImage;
-    private bool isMoving = false;
+    private bool isMoving = false;  // 플레이어가 탐사 or 이동 중
     public bool IsMoving => isMoving;
+    [SerializeField] private Image progressbarImage;
+    private bool isProgress = false;    // 플레이어가 제작 or 사용 중
+    public bool IsProgress => isProgress;
 
     private Dictionary<UIType, GameObject> uiList = new Dictionary<UIType, GameObject>();
+
+    private async void Start()
+    {
+        await InitAreaImageList();
+        SubscribeEvents();
+    }
 
     public void OpenUI(UIType uiType)
     {
@@ -40,6 +50,8 @@ public class UIManager : Singleton<UIManager>
         await ResourceManager.Instance.LoadAreaImagesAsync();
 
         Debug.Log("UIManager: Area 이미지 로딩 완료");
+
+        
     }
 
 
@@ -68,6 +80,8 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowCraftingPopup()
     {
+        if(craftingPopup.gameObject.activeSelf) return;
+        
         craftingPopup.gameObject.SetActive(true);
         craftingPopup.InitializeCraftingPopup(ItemManager.Instance.SelectedInventoryIndex);
     }
@@ -76,8 +90,26 @@ public class UIManager : Singleton<UIManager>
     {
         craftingPopup.gameObject.SetActive(false);
     }
+
+    // 팝업 버튼 이벤트들
+    public void OnTutorialPopupClose()
+    {
+        HideTutorialPopup();
+        // GameManager에 게임 시작 알림
+        GameManager.Instance.StartGameplay();
+    }
+
+    public void OnDefeatPopupClose()
+    {
+        if (defeatPopup != null)
+            defeatPopup.SetActive(false);
+        // GameManager에 로비로 이동 요청
+        GameManager.Instance.ReturnToLobby();
+    }
     #endregion
 
+
+    # region Time Updates
     public void UpdateTimerDisplay(float currentTime, float maxTime)
     {
         if (timeText != null)
@@ -96,19 +128,7 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
-    private async void Start()
-    {
-        await InitAreaImageList();
-        SubscribeToTimeManager();
-    }
-
-    private void OnDestroy()
-    {
-        UnsubscribeFromTimeManager();
-        // ResourceManager가 메모리 관리를 담당하므로 여기서는 구독 해제만
-    }
-
-    private void SubscribeToTimeManager()
+    private void SubscribeEvents()
     {
         // TimeManager 이벤트 구독
         if (TimeManager.Instance != null)
@@ -116,11 +136,15 @@ public class UIManager : Singleton<UIManager>
             TimeManager.Instance.OnTimeUpdated += OnTimeUpdated;
             TimeManager.Instance.OnPhaseChanged += OnPhaseChanged;
             TimeManager.Instance.OnDayNightChanged += (bool isDayLight) => SetCurrentAreaImage(isDayLight);
+        }
+        if(GameManager.Instance != null)
+        {
             GameManager.Instance.OnAreaChanged += (AreaType areaType) => SetCurrentAreaImage(areaType);
+            GameManager.Instance.OnPlayerProtectionChanged += UpdatePlayerProtectionText;
         }
     }
 
-    private void UnsubscribeFromTimeManager()
+    private void UnsubscribeEvents()
     {
         // 이벤트 구독 해제
         if (TimeManager.Instance != null)
@@ -128,7 +152,11 @@ public class UIManager : Singleton<UIManager>
             TimeManager.Instance.OnTimeUpdated -= OnTimeUpdated;
             TimeManager.Instance.OnPhaseChanged -= OnPhaseChanged;
             TimeManager.Instance.OnDayNightChanged -= (bool isDayLight) => SetCurrentAreaImage(isDayLight);
+        }
+        if(GameManager.Instance != null)
+        {
             GameManager.Instance.OnAreaChanged -= (AreaType areaType) => SetCurrentAreaImage(areaType);
+            GameManager.Instance.OnPlayerProtectionChanged -= UpdatePlayerProtectionText;
         }
     }
 
@@ -143,23 +171,9 @@ public class UIManager : Singleton<UIManager>
     {
         UpdatePhaseDisplay(phase);
     }
+    #endregion
 
-    // 팝업 버튼 이벤트들
-    public void OnTutorialPopupClose()
-    {
-        HideTutorialPopup();
-        // GameManager에 게임 시작 알림
-        GameManager.Instance.StartGameplay();
-    }
-
-    public void OnDefeatPopupClose()
-    {
-        if (defeatPopup != null)
-            defeatPopup.SetActive(false);
-        // GameManager에 로비로 이동 요청
-        GameManager.Instance.ReturnToLobby();
-    }
-
+    #region Area Image Change
     public void SetCurrentAreaImage(bool isDayLight)
     {
         AreaType currentArea = AreaManager.Instance.PlayerCurrentArea.AreaType;
@@ -190,6 +204,7 @@ public class UIManager : Singleton<UIManager>
             Debug.LogWarning($"UIManager: 이미지를 찾을 수 없습니다 - {area} - {(isDayLight ? "낮" : "밤")}");
         }
     }
+    #endregion
 
     #region Player Movement UI
     public void PlayerMovement()
@@ -237,6 +252,39 @@ public class UIManager : Singleton<UIManager>
         target.anchoredPosition = targetPosition;
     }
 
+    public void StartItemUseProgress(UsableItem item)
+    {
+        if(isProgress)  return;
+        
+        isProgress = true;
+        StartCoroutine(ItemUseProgressCoroutine(item));
+    }
+
+    // 아이템 사용 진행 코루틴
+    private IEnumerator ItemUseProgressCoroutine(UsableItem item)
+    {
+        yield return ItemInteractingProgress();
+
+        item.OnUse();
+        progressbarImage.fillAmount = 0;
+        isProgress = false;
+    }
+
+    // 플레이어가 아이템 제작 or 사용 시 노출되는 프로그레스 바
+    private IEnumerator ItemInteractingProgress()
+    {
+        float elapsed = 0f;
+
+        while (elapsed < 3f)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / 3f;
+            progressbarImage.fillAmount = t;
+
+            yield return null;
+        }
+    }
+
     public IEnumerator FadeOutUI(float fadeSpeed)
     {
         float alpha = 0f;
@@ -263,5 +311,24 @@ public class UIManager : Singleton<UIManager>
         fadeImage.raycastTarget = false;
     }
 
+    public void UpdatePlayerProtectionText(int duration)
+    {
+        if(duration <= 0)
+        {
+            playerProtectionText.text = " ";
+            return;
+        }
+        
+        if (playerProtectionText != null)
+        {
+            playerProtectionText.text = $"Used Amulet : {duration}s..";
+        }
+    }
     #endregion
+
+    private void OnDestroy()
+    {
+        UnsubscribeEvents();
+        // ResourceManager가 메모리 관리를 담당하므로 여기서는 구독 해제만
+    }
 }

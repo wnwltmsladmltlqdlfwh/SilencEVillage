@@ -18,17 +18,20 @@ public class EnemyDataSO : ScriptableObject
 {
     // 적 데이터
     public EnemyType EnemyType;
-    public string EnemyName;
+    private string enemyName;
+    public string EnemyName => enemyName;
     public Sprite EnemyImage;
     public float MoveDelay;
     public bool isChasePlayer;
 
     public EnemyDataSO Clone()
     {
+        // EnemyDataSO 클론 생성
         EnemyDataSO clone = CreateInstance<EnemyDataSO>();
 
+        // 기본 데이터 복사
         clone.EnemyType = this.EnemyType;
-        clone.EnemyName = this.EnemyName;
+        clone.enemyName = this.EnemyType.ToString();
         clone.EnemyImage = this.EnemyImage;
         clone.MoveDelay = this.MoveDelay;
         clone.isChasePlayer = this.isChasePlayer;

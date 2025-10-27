@@ -30,7 +30,7 @@ public class ResourceManager : Singleton<ResourceManager>
     /// <summary>
     /// 모든 Area 이미지들을 비동기로 로드합니다.
     /// </summary>
-    public async System.Threading.Tasks.Task LoadAreaImagesAsync()
+    public async Task LoadAreaImagesAsync()
     {
         if (isAreaImagesLoaded)
         {
@@ -134,11 +134,11 @@ public class ResourceManager : Singleton<ResourceManager>
     #endregion
     
     #region Private Methods
-    private async System.Threading.Tasks.Task LoadAllAreaImages()
+    private async Task LoadAllAreaImages()
     {
-        var loadTasks = new List<System.Threading.Tasks.Task>();
+        var loadTasks = new List<Task>();
         
-        foreach (AreaType areaType in System.Enum.GetValues(typeof(AreaType)))
+        foreach (AreaType areaType in Enum.GetValues(typeof(AreaType)))
         {
             if (areaType == AreaType.AreaMaxCount) continue;
             
@@ -154,10 +154,10 @@ public class ResourceManager : Singleton<ResourceManager>
         }
         
         // 모든 이미지 로딩 완료 대기
-        await System.Threading.Tasks.Task.WhenAll(loadTasks);
+        await Task.WhenAll(loadTasks);
     }
     
-    private async System.Threading.Tasks.Task LoadAreaImageAsync(AreaType areaType, string areaName, bool isDayLight)
+    private async Task LoadAreaImageAsync(AreaType areaType, string areaName, bool isDayLight)
     {
         string address = isDayLight 
             ? $"Image/Area/Day/{areaName}_Day"
@@ -241,7 +241,7 @@ public class ResourceManager : Singleton<ResourceManager>
         {
             // 앱이 일시정지될 때 메모리 정리
             Resources.UnloadUnusedAssets();
-            System.GC.Collect();
+            GC.Collect();
         }
     }
     #endregion
