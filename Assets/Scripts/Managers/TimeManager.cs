@@ -4,6 +4,7 @@ using System.Collections;
 public class TimeManager : Singleton<TimeManager>
 {
     [SerializeField] private float currentTime = 0f;     // 게임 시간
+    public float GameMaxTime = 375f;    // 게임 최대 시간 (test용 100초, 실제 375초)
     private bool isTimerRunning = false; // 게임 타이머 실행 여부
     private Coroutine timerCoroutine;    // 게임 타이머 코루틴
 
@@ -13,18 +14,19 @@ public class TimeManager : Singleton<TimeManager>
     public System.Action<int> OnPhaseChanged;
 
     public float CurrentTime => currentTime;
-    public int CurrentPhase =>  Mathf.Clamp(Mathf.FloorToInt(currentTime / 150f) + 1, 1, 5);
+    public int CurrentPhase =>  Mathf.Clamp(Mathf.FloorToInt(currentTime / (GameMaxTime / 5)) + 1, 1, 5);
+    public bool IsLastPhaseOver => currentTime >= GameMaxTime;
     
     public bool IsDayTime
     {
         get
         {
-            if (currentTime >= 750f)
+            if (currentTime >= GameMaxTime)
                 return false;
             else
             {
-                float cycleTime = currentTime % 150f;
-                if (cycleTime < 60f)
+                float cycleTime = currentTime % (GameMaxTime / 5);
+                if (cycleTime < (GameMaxTime / 12.5f))  // 12.5f = 30초
                     return true;
                 else
                     return false;
@@ -40,7 +42,6 @@ public class TimeManager : Singleton<TimeManager>
             currentTime = 0f;
             isTimerRunning = true;
             timerCoroutine = StartCoroutine(TimerCoroutine());
-            Debug.Log("게임 타이머 시작");
         }
     }
 
@@ -81,6 +82,7 @@ public class TimeManager : Singleton<TimeManager>
     private IEnumerator TimerCoroutine()
     {
         bool previousDayNight = IsDayTime;
+        int previousPhase = CurrentPhase;
 
         while (isTimerRunning)
         {
@@ -95,15 +97,20 @@ public class TimeManager : Singleton<TimeManager>
             if (currentDayNight != previousDayNight)
             {
                 OnDayNightChanged?.Invoke(currentDayNight);
+                UIManager.Instance.OnNoticeAdded?.Invoke(
+                    currentDayNight ? "낮이 되었습니다." : "밤이 되었습니다.",
+                    NoticeType.System
+                );
                 previousDayNight = currentDayNight;
             }
 
             // 페이즈 체크 (2분 30초 = 150초마다)
-            int phase = Mathf.FloorToInt(currentTime / 150f) + 1;
-            if (phase <= 5)
+            int currentPhase = CurrentPhase;
+            if (currentPhase <= 5 && currentPhase != previousPhase)
             {
                 // 페이즈 변경 이벤트 실행
-                OnPhaseChanged?.Invoke(phase);
+                OnPhaseChanged?.Invoke(currentPhase);
+                previousPhase = currentPhase;
             }
         }
     }

@@ -7,7 +7,10 @@ public class NoteItem : UsableItem
 
     public override void OnUse()
     {
-        Debug.Log($"{ItemName}를 사용했습니다!");
+        UIManager.Instance.OnNoticeAdded?.Invoke(
+            $"{ItemName}을 사용했습니다!",
+            NoticeType.System
+        );
         currentArea = AreaManager.Instance.PlayerCurrentArea.AreaType;
         AreaManager.Instance.GetAreaObject(currentArea).SetDirectionLureActive(true);
     }

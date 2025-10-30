@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MoveState : BaseState
 {
-    private AreaBase playerArea;
     private float chaseTimer;
 
     public MoveState(EnemyBase enemy) : base(enemy)
@@ -14,14 +13,12 @@ public class MoveState : BaseState
     public override void Enter()
     {
         Debug.Log($"{enemy.EnemyData.EnemyName}이 움직이기 시작했습니다.");
-        playerArea = AreaManager.Instance.PlayerCurrentArea;
         chaseTimer = 0f;
     }
 
     public override void Exit()
     {
         Debug.Log($"{enemy.EnemyData.EnemyName}이 움직임을 중단했습니다.");
-        playerArea = null;
         chaseTimer = 0f;
     }
 
@@ -35,39 +32,55 @@ public class MoveState : BaseState
             return;
         }
 
+        if (enemy.EnemyData.EnemyType == EnemyType.Jibakryeong && enemy.CurrentArea == AreaManager.Instance.PlayerCurrentArea)
+        {
+            // 지박령은 이동하지 않지만 플레이어와 만났을 때 즉시 만남 상태로 전환
+            enemy.ChangeState(new MeetPlayerState(enemy));
+            return;
+        }
+
+        // 이동 시간 체크
         if (chaseTimer >= enemy.EnemyData.MoveDelay)
         {
             // 플레이어와 같은 영역에 있으면 만남 상태로 전환
-            if (enemy.CurrentArea == playerArea)
+            if (enemy.CurrentArea == AreaManager.Instance.PlayerCurrentArea)
             {
                 enemy.ChangeState(new MeetPlayerState(enemy));
                 return;
             }
-
-            EnemyMovement();
 
             // 방향 미끼가 활성화 시 미끼 리스트 추가
             if (enemy.CurrentArea.IsDirectionLureActive)
             {
                 enemy.AddLuredArea(AreaType.Entrance);
                 enemy.CurrentArea.SetDirectionLureActive(false);
+                UIManager.Instance.OnNoticeAdded?.Invoke(
+                    $"무엇인가 마을 입구로 이동한다.",
+                    NoticeType.Warning
+                );
             }
+
+            EnemyMovement();
         }
     }
 
     public void EnemyMovement()
     {
-        float randomChance = 0.2f * TimeManager.Instance.CurrentPhase;
-
-        if (Random.Range(0f, 1f) >= randomChance)
+        if (Random.Range(0f, 1f) < 0f)
         {
             chaseTimer = 0f;
             return;
         }
 
-        bool isChase = enemy.EnemyData.isChasePlayer;
+        if (OnLuredArea())   // 미끼 영역 리스트가 있으면 가장 첫번째 미끼 영역으로 이동
+        {
+            Debug.Log($"{enemy.EnemyData.EnemyName}이 미끼 영역인 {enemy.LuredAreaList[0]} 영역을 향해 이동했습니다.");
+            LuredMove();
+            chaseTimer = 0f;
+            return;
+        }
 
-        if (IsNearByPlayer())   // 플레이어가 1칸 이내에 있으면 플레이어 영역으로 이동
+        if (EnemyManager.Instance.IsNearByPlayer(enemy.EnemyData.EnemyType))   // 플레이어가 1칸 이내에 있으면 플레이어 영역으로 이동
         {
             MoveToArea(AreaManager.Instance.PlayerCurrentArea.AreaType);
             Debug.Log($"{enemy.EnemyData.EnemyName}이 플레이어와 가까워 {AreaManager.Instance.PlayerCurrentArea.AreaType} 영역으로 이동했습니다.");
@@ -75,22 +88,8 @@ public class MoveState : BaseState
             return;
         }
 
-        if (OnLuredArea())   // 미끼 영역 리스트가 있으면 가장 첫번째 미끼 영역으로 이동
-        {
-            Debug.Log($"{enemy.EnemyData.EnemyName}이 미끼 영역인 {enemy.LuredAreaList[0]} 영역으로 이동했습니다.");
-            LuredMove();
-        }
-
-        if (isChase)   // 추격 모드
-        {
-            ChaseMove();
-            Debug.Log($"{enemy.EnemyData.EnemyName}이 플레이어를 추격하여 {AreaManager.Instance.PlayerCurrentArea.AreaType} 영역으로 이동했습니다.");
-        }
-        else   // 랜덤 목표 이동 모드
-        {
-            RandomMove();
-            Debug.Log($"{enemy.EnemyData.EnemyName}이 임의로 {enemy.CurrentArea.AreaType} 영역으로 이동했습니다.");
-        }
+        RandomMove();
+        Debug.Log($"{enemy.EnemyData.EnemyName}이 임의로 {enemy.CurrentArea.AreaType} 영역으로 이동했습니다.");
 
         chaseTimer = 0f;
     }
@@ -114,7 +113,6 @@ public class MoveState : BaseState
             {
                 enemy.RemoveLuredArea(luredAreaType);
             }
-            chaseTimer = 0f;
             return;
         }
 
@@ -126,39 +124,11 @@ public class MoveState : BaseState
             // 경로를 찾을 수 없으면 LureList에서 제거
             Debug.LogWarning($"{enemy.EnemyData.EnemyName}: {luredAreaType}로 가는 경로를 찾을 수 없습니다!");
             enemy.RemoveLuredArea(luredAreaType);
-            chaseTimer = 0f;
             return;
         }
 
         // 한 칸씩 이동
         AreaType nextArea = pathToLure[1];
-        MoveToArea(nextArea);
-
-        chaseTimer = 0f;
-        return;
-    }
-
-    public void ChaseMove()    // 추격 모드
-    {
-        AreaBase playerArea = AreaManager.Instance.PlayerCurrentArea;
-        AreaBase currentArea = enemy.CurrentArea;
-
-        if (playerArea == currentArea)
-        {
-            // 플레이어와 같은 영역에 있으면 만남 상태로 전환
-            enemy.ChangeState(new MeetPlayerState(enemy));
-            return;
-        }
-
-        List<AreaType> pathToPlayer = AreaManager.Instance.FindPath(currentArea.AreaType, playerArea.AreaType);   // 플레이어 영역까지의 경로
-
-        if (pathToPlayer == null || pathToPlayer.Count < 2)
-        {
-            enemy.ChangeState(new MeetPlayerState(enemy));
-            return;
-        }
-
-        AreaType nextArea = pathToPlayer[1];
         MoveToArea(nextArea);
     }
 

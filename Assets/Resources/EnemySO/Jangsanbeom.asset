@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EnemyType: 0
   EnemyImage: {fileID: 4259660427935631710, guid: 015fdb307523f5b4b8a8731dcce5a863, type: 3}
-  MoveDelay: 10
+  MoveDelay: 15
   isChasePlayer: 0
+  MeetDelay: 10

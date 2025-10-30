@@ -3,6 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using System.Collections.Generic;
 
 public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
@@ -36,7 +37,7 @@ public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         if (areaNameText != null)
         {
-            areaNameText.text = areaType.ToString();
+            areaNameText.text = AreaManager.AreaNameDictionary[areaType];
         }
 
         onPointerEnterColor = new Color(0f, 1f, 0f, 0.5f);
@@ -99,6 +100,7 @@ public class MovementMapButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
         // 지연 초기화로 안전한 접근
         uiManager.PlayerMovement();
         areaManager.SetPlayerArea(areaType);
+
         GameManager.Instance.OnAreaChanged?.Invoke(areaType);
     }
 }

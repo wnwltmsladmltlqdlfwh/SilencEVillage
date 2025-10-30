@@ -10,7 +10,8 @@ public class CraftingButton : MonoBehaviour, IPointerDownHandler
     public void InitializeCraftingButton(ItemManager.CraftingRecipe recipe)
     {
         this.recipe = recipe;
-        craftingDescription.text = $"{recipe.material1.ToString()} + {recipe.material2.ToString()} = {recipe.result.ToString()}";
+        var nameDict = ItemManager.Instance.ItemNameDictionary;
+        craftingDescription.text = $"{nameDict[recipe.material1]}\n+ {nameDict[recipe.material2]}\n= {nameDict[recipe.result]}";
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -20,6 +21,10 @@ public class CraftingButton : MonoBehaviour, IPointerDownHandler
 
     public void OnClickCraftingButton()
     {
+        if(UIManager.Instance.IsProgress) return;
+
+        SoundManager.Instance.PlaySFX(SoundManager.SFXType.Player_MakeItem);
+        UIManager.Instance.StartItemCraftingProgress();
         ItemManager.Instance.TryCraftItemWithRecipe(ItemManager.Instance.SelectedInventoryIndex, recipe);
         UIManager.Instance.CloseCraftingPopup();
     }

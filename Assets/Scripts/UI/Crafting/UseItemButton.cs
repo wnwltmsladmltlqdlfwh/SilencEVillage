@@ -18,7 +18,7 @@ public class UseItemButton : MonoBehaviour, IPointerDownHandler
     public void InitUseItemButton(UsableItem itemData)
     {
         this.targetItem = itemData;
-        itemDescription.text = $"{itemData.ItemName.ToString()}";
+        itemDescription.text = $"{itemData.ItemName}\n사용";
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -28,6 +28,34 @@ public class UseItemButton : MonoBehaviour, IPointerDownHandler
 
     public void OnClickUseButton()
     {
+        if(uiManager.IsProgress) return;
+
+        if(targetItem is RepairRadioItem && AreaManager.Instance.PlayerCurrentArea.IsSoundLureActive)
+        {
+            UIManager.Instance.OnNoticeAdded?.Invoke(
+                "이미 라디오가 설치되어 있습니다.",
+                NoticeType.System
+            );
+            return;
+        }
+        if(targetItem is NoteItem && AreaManager.Instance.PlayerCurrentArea.IsDirectionLureActive)
+        {
+            UIManager.Instance.OnNoticeAdded?.Invoke(
+                "이미 노트가 설치되어 있습니다.",
+                NoticeType.System
+            );
+            return;
+        }
+        if(targetItem is AmuletItem && GameManager.Instance.IsPlayerProtected)
+        {
+            UIManager.Instance.OnNoticeAdded?.Invoke(
+                "이미 보호 상태입니다.",
+                NoticeType.System
+            );
+            return;
+        }
+
+        SoundManager.Instance.PlaySFX(SoundManager.SFXType.Player_MakeItem);
         // 아이템 사용 진행 시작
         uiManager.StartItemUseProgress(targetItem);
         uiManager.CloseCraftingPopup();

@@ -48,7 +48,7 @@ public class ItemBaseSO : ScriptableObject
         }
 
         clone.ItemType = this.ItemType;
-        clone.ItemName = this.ItemName;
+        clone.ItemName = ItemManager.Instance.ItemNameDictionary[this.ItemType];
         clone.ItemDescription = this.ItemDescription;
         clone.ItemIcon = this.ItemIcon;
 

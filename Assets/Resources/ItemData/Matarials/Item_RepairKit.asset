@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222385d2434b05b439eb14d8b42213e4, type: 3}
   m_Name: Item_RepairKit
   m_EditorClassIdentifier: 
-  ItemType: 7
+  ItemType: 4
   ItemName: Repair kit
   ItemDescription: 
   ItemIcon: {fileID: -7242169367575712644, guid: ffaaa66edbd12334a928f0966abd4291, type: 3}

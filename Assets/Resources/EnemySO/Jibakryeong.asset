@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3701ea6510a5e74794537bd96f824f1, type: 3}
+  m_Name: Jibakryeong
+  m_EditorClassIdentifier: 
+  EnemyType: 2
+  EnemyImage: {fileID: -5540822833321227857, guid: f6fac04c9128474479d356d646da7430, type: 3}
+  MoveDelay: 999999
+  isChasePlayer: 0
+  MeetDelay: 5

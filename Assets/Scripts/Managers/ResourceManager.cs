@@ -4,26 +4,31 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using UnityEngine.Video;
 
 public class ResourceManager : Singleton<ResourceManager>
 {
     // Area 이미지 목록
     private Dictionary<AreaType, Sprite> dayLightAreaImageList = new Dictionary<AreaType, Sprite>();
     private Dictionary<AreaType, Sprite> nightAreaImageList = new Dictionary<AreaType, Sprite>();
+    private Dictionary<EnemyType, VideoClip> killAnimationVideoDictionary = new Dictionary<EnemyType, VideoClip>();
     
     // Addressable 핸들 저장 (메모리 해제용)
     private List<AsyncOperationHandle> loadedHandles = new List<AsyncOperationHandle>();
     
     // 로딩 상태 관리
     private bool isAreaImagesLoaded = false;
+    private bool isKillAnimationVideoLoaded = false;
     
     // 이벤트
     public event Action OnAreaImagesLoaded;
     
     #region Public Properties
     public bool IsAreaImagesLoaded => isAreaImagesLoaded;
+    public bool IsKillAnimationVideoLoaded => isKillAnimationVideoLoaded;
     public Dictionary<AreaType, Sprite> DayLightAreaImageList => dayLightAreaImageList;
     public Dictionary<AreaType, Sprite> NightAreaImageList => nightAreaImageList;
+    public Dictionary<EnemyType, VideoClip> KillAnimationVideoDictionary => killAnimationVideoDictionary;
     #endregion
     
     #region Area Images Management

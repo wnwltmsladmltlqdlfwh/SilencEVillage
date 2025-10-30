@@ -28,20 +28,6 @@ public abstract class BaseState
         return enemy.CurrentArea == targetArea;
     }
 
-    // 플레이어 근처에 있는지 확인
-    protected bool IsNearByPlayer()
-    {
-        var nearAreaList = AreaManager.MovableAreaDictionary[enemy.CurrentArea.AreaType];
-        var playerArea = AreaManager.Instance.PlayerCurrentArea;
-        if(nearAreaList.Contains(playerArea.AreaType))
-        {
-            enemy.OnNearByPlayer?.Invoke();
-            return true;
-        }
-        else
-            return false;
-    }
-
     // 미끼 영역 확인
     protected bool OnLuredArea() => enemy.LuredAreaList.Count > 0 ? true : false;
 }

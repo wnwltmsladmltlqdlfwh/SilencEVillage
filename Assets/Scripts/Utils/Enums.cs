@@ -9,9 +9,11 @@ public enum GameState
     GameOver,
 }
 
-public enum UIType
+public enum NoticeType
 {
-    Main,
+    Normal,
+    Warning,
+    System,
 }
 
 public enum SceneType

@@ -1,8 +1,4 @@
-using UnityEngine;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using Unity.VisualScripting;
 
 public class AreaBase
 {
@@ -25,7 +21,7 @@ public class AreaBase
     public AreaBase(AreaType areaType)
     {
         this.AreaType = areaType;
-        this.AreaName = areaType.ToString();
+        this.AreaName = AreaManager.AreaNameDictionary[areaType];
         
         enemyObjectList.Clear();
         isSoundLureActive = false;
@@ -34,16 +30,15 @@ public class AreaBase
 
     public void AddEnemy(EnemyBase enemy) => enemyObjectList.Add(enemy);
     public void RemoveEnemy(EnemyBase enemy) { if (enemyObjectList.Contains(enemy)) enemyObjectList.Remove(enemy); }
+    public void ClearEnemyList() => enemyObjectList.Clear();
 
     public void SetSoundLureActive(bool isActive)
     {
         isSoundLureActive = isActive;
-        Debug.Log($"Sound Lure Active: {isActive}");
     }
     
     public void SetDirectionLureActive(bool isActive)
     {
         isDirectionLureActive = isActive;
-        Debug.Log($"Direction Lure Active: {isActive}");
     }
 }

@@ -33,6 +33,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - NightAreaImages
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e91748c06470aa4d95a692ba34d8342
+    m_Address: Animation/Seongju_Death
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5e72a6a94ef5b6b47845f3444530f59c
     m_Address: Image/Area/Day/Cowshed_Day
     m_ReadOnly: 0
@@ -87,6 +92,11 @@ MonoBehaviour:
     m_SerializedLabels:
     - NightAreaImages
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccbdc2012536bbb449a7fd7029c695a0
+    m_Address: Animation/Jibakryeong_Death
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6f42c2730408f6478cf16fa098fc5ce
     m_Address: Image/Area/Day/HolyTree_Day
     m_ReadOnly: 0
@@ -98,6 +108,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - NightAreaImages
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efc7b0a77df98624ea9bca7e11fb4ac1
+    m_Address: Animation/Jangsanbeom_Death
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ff7729d386c07154f867e11d2940b76e
+    m_Address: Animation/Agwi_Death
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 356b7a39294a3474298455ad346ae67c, type: 2}

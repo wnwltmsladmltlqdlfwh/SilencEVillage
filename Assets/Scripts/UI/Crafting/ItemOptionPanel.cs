@@ -19,7 +19,7 @@ public class ItemOptionPanel : MonoBehaviour
         itemIcon.sprite = itemData.ItemIcon;
         itemName.text = itemData.ItemName;
 
-        removeItemDescription.text = $"Remove {itemData.ItemName}";
+        removeItemDescription.text = $"{itemData.ItemName}\n버리기";
 
         SetupButtons(itemData);
     }

@@ -18,7 +18,6 @@ public class ExploreButton : MonoBehaviour
 
     private IEnumerator ExploreCoroutine()
     {
-        Debug.Log("탐색 시작");
         uiManager.PlayerMovement();
         yield return new WaitWhile(() => uiManager.IsMoving);
         TryGetItem();
@@ -28,13 +27,10 @@ public class ExploreButton : MonoBehaviour
     {
         float randomValue = Random.Range(0f, 1f);
 
-        if(randomValue < 0.5f)
+        if(randomValue >= 0.5f) // 아이템 획득 확률
         {
             ItemManager.Instance.AddItem(ItemManager.Instance.GetRandomItemData());
-            Debug.Log("Item 획득");
             return;
         }
-
-        Debug.Log("아이템 획득 실패");
     }
 }

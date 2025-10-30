@@ -12,6 +12,17 @@ public class ItemManager : Singleton<ItemManager>
     public ItemBaseSO GetItemData(ItemType itemType) => materialItemDataList.Find(item => item.ItemType == itemType);
     public UsableItem GetUsableItemData(ItemType itemType) => usableItemDataList.Find(item => item.ItemType == itemType);
     public ItemBaseSO GetRandomItemData() => materialItemDataList[UnityEngine.Random.Range(0, materialItemDataList.Count)];
+    public Dictionary<ItemType, string> ItemNameDictionary = new Dictionary<ItemType, string>()
+    {
+        {ItemType.Note, "쪽지"},
+        {ItemType.Amulet, "부적"},
+        {ItemType.RepairedRadio, "수리된 라디오"},
+        {ItemType.Paper, "종이"},
+        {ItemType.Pencil, "연필"},
+        {ItemType.Brush, "브러시"},
+        {ItemType.BrokenRadio, "고장난 라디오"},
+        {ItemType.RepairKit, "수리 키트"},
+    };
 
     // 아이템 조합 레시피
     [Serializable]
@@ -59,7 +70,6 @@ public class ItemManager : Singleton<ItemManager>
 
     }
 
-
     // 인벤토리 아이템 가져오기
     public ItemBaseSO GetInventoryItem(int index)
     {
@@ -75,15 +85,21 @@ public class ItemManager : Singleton<ItemManager>
     {
         if (IsInventoryFull)
         {
-            Debug.Log("인벤토리가 가득 찼습니다.");
+            UIManager.Instance.OnNoticeAdded?.Invoke(
+                "인벤토리가 꽉 찼습니다.",
+                NoticeType.Normal
+            );
             return;
         }
-        Debug.Log("인벤토리에 남은 공간이 있습니다.");
 
         for (int i = 0; i < currentInventory.Length; i++)
         {
             if (currentInventory[i] != null) continue;
             currentInventory[i] = item.Clone();
+            UIManager.Instance.OnNoticeAdded?.Invoke(
+                $"{currentInventory[i].ItemName}을 얻었습니다.",
+                NoticeType.Normal
+            );
             break;
         }
         OnInventoryItemChanged?.Invoke();
@@ -143,8 +159,21 @@ public class ItemManager : Singleton<ItemManager>
         return null;
     }
 
+    // 인벤토리에 아무 아이템이나 있는지 확인
+    public bool HasItemAny()
+    {
+        foreach (var item in currentInventory)
+        {
+            if (item != null)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // 인벤토리에 특정 아이템이 있는지 확인
-    private bool HasItemInInventory(ItemType itemType)
+    public bool HasItemInInventory(ItemType itemType)
     {
         foreach (var item in currentInventory)
         {
@@ -184,7 +213,7 @@ public class ItemManager : Singleton<ItemManager>
     }
 
     // 인벤토리에서 특정 아이템 제거
-    private void RemoveItemFromInventory(ItemType itemType)
+    public void RemoveItemFromInventory(ItemType itemType)
     {
         for (int i = 0; i < currentInventory.Length; i++)
         {
@@ -193,6 +222,22 @@ public class ItemManager : Singleton<ItemManager>
                 currentInventory[i] = null;
                 OnInventoryItemChanged?.Invoke();
                 break;
+            }
+        }
+    }
+
+    // 인벤토리에서 아무 아이템이나 제거
+    public void RemoveItemAny()
+    {
+        bool isRemoved = false;
+        while(!isRemoved)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, currentInventory.Length);
+            if (currentInventory[randomIndex] != null)
+            {
+                currentInventory[randomIndex] = null;
+                OnInventoryItemChanged?.Invoke();
+                isRemoved = true;
             }
         }
     }

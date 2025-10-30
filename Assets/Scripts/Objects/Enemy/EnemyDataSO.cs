@@ -6,7 +6,7 @@ using System;
 public enum EnemyType
 {
     Jangsanbeom,
-    Seonhju,
+    Seongju,
     Jibakryeong,
     Agwi,
     EnemyMaxCount,
@@ -22,7 +22,7 @@ public class EnemyDataSO : ScriptableObject
     public string EnemyName => enemyName;
     public Sprite EnemyImage;
     public float MoveDelay;
-    public bool isChasePlayer;
+    public float MeetDelay;
 
     public EnemyDataSO Clone()
     {
@@ -34,7 +34,7 @@ public class EnemyDataSO : ScriptableObject
         clone.enemyName = this.EnemyType.ToString();
         clone.EnemyImage = this.EnemyImage;
         clone.MoveDelay = this.MoveDelay;
-        clone.isChasePlayer = this.isChasePlayer;
+        clone.MeetDelay = this.MeetDelay;
 
         return clone;
     }
