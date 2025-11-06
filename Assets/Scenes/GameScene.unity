@@ -1627,7 +1627,7 @@ GameObject:
   - component: {fileID: 144689224}
   - component: {fileID: 144689223}
   m_Layer: 5
-  m_Name: TutorialTitle
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1647,11 +1647,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2013172797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 100}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &144689223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1672,7 +1672,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC0B4\uC544\uB0A8\uC558\uB2E4."
+  m_text: "\uC0B4\uC544\uB0A8\uC558\uB2E4.\n\uC9D1\uC73C\uB85C \uB3CC\uC544\uAC00\uC790..."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 93e9f2e35fb55534a94a880a68ee4ebd, type: 2}
   m_sharedMaterial: {fileID: -8797887622317458668, guid: 93e9f2e35fb55534a94a880a68ee4ebd, type: 2}
@@ -1681,8 +1681,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4278190335
+  m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5270,7 +5270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.98039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6115,8 +6115,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6791,8 +6791,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 490908831}
   m_HandleRect: {fileID: 490908830}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8428,8 +8428,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -10417,7 +10417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000064321954}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1463714117
@@ -10565,32 +10565,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\uB2F9\uC2E0\uC740 5\uC77C\uAC04 \uB9C8\uC744\uC744 \uD0D0\uC0C9\uD558\uC5EC
-    \uC0B4\uC544\uB0A8\uC544\uC57C\uD55C\uB2E4.\n\uC7AC\uBB3C\uC744 \uD0D0\uD558\uB294
-    \uADC0\uC2E0,\n\uB9D0\uC744 \uB530\uB77C\uD558\uB294 \uADC0\uC2E0,\n\uD55C\uC774
-    \uB9FA\uD600 \uC774\uC2B9\uC744 \uB5A0\uB3C4\uB294 \uADC0\uC2E0,\n\uB9C8\uC744\uC744
-    \uC9C0\uD0A4\uAE30\uC704\uD574 \uBD84\uB178\uD55C \uC9C0\uC5ED\uC2E0\uAE4C\uC9C0\n\uC704\uD611\uC801\uC778
-    \uC874\uC7AC\uB4E4\uC774\uB2E4.\n5\uC77C\uAC04 \uBAA8\uB4E0 \uC870\uC0AC\uB97C
-    \uB05D\uB9C8\uCE58\uAC8C \uB418\uBA74 \uC989\uC2DC \uB9C8\uC744\uC744 \uB5A0\uB098\uB77C.\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C\n\uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C
-    \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C \uB5A0\uB098\uB77C"
+    \uC0B4\uC544\uB0A8\uC544\uC57C\uD55C\uB2E4.\n30\uCD08\uAC04\uC758 \uB0AE \uC2DC\uAC04\uC5D0\uB294
+    \uC548\uC804\uD558\uB2C8 \uC8FC\uBCC0\uC744 \uD0D0\uC0C9\uD574\uBCF4\uC544\uB77C\n\uC720\uC6A9\uD55C
+    \uBB3C\uAC74\uB4E4\uC774 \uB2F9\uC2E0\uC744 \uB3C4\uC6B8\uAC83\uC774\uB2E4.\n\uB0AE\uC774
+    \uB05D\uB098\uAC8C\uB418\uBA74 45\uCD08\uAC04\uC758 \uBC24\uACFC \uD568\uAED8
+    \uADC0\uC2E0\uB4E4\uC774 \uB9C8\uC744\uC5D0 \uCC3E\uC544\uC628\uB2E4.\n\uB2F9\uC2E0\uC758
+    \uC7AC\uBB3C\uC744 \uD0D0\uD558\uB294 \uADC0\uC2E0,\n\uB204\uAD70\uAC00\uC758
+    \uBAA9\uC18C\uB9AC\uB97C \uD749\uB0B4\uB0B4\uB294 \uADC0\uC2E0,\n\uAD6C\uCC9C\uC744
+    \uB5A0\uB098\uC9C0 \uC54A\uACE0 \uC9C0\uC5ED\uC744 \uC810\uAC70\uD558\uB294 \uADC0\uC2E0,\n\uC5B4\uC9C0\uB7EC\uC6CC\uC9C4
+    \uAE30\uC6B4\uC5D0 \uC608\uBBFC\uD574\uC9C4 \uC131\uC8FC\uC2E0,\n\uBAA8\uB450\uAC00
+    \uC704\uD611\uC801\uC778 \uC874\uC7AC\uB4E4\uC774\uB2E4.\n5\uC77C\uAC04 \uBAA8\uB4E0
+    \uC870\uC0AC\uB97C \uB05D\uB9C8\uCE58\uAC8C \uB418\uBA74 \uC989\uC2DC \uB9C8\uC744\uC744
+    \uB5A0\uB098\uB77C."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ae59a0c1dc35cb54d872b0db0a1091e3, type: 2}
   m_sharedMaterial: {fileID: -8298043972913257707, guid: ae59a0c1dc35cb54d872b0db0a1091e3, type: 2}
@@ -11961,7 +11947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.98039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -12411,12 +12397,12 @@ RectTransform:
   - {fileID: 1900184004}
   - {fileID: 1353886966}
   - {fileID: 832325865}
+  - {fileID: 103714415}
   - {fileID: 1044200890}
   - {fileID: 1437816459}
   - {fileID: 1134861651}
   - {fileID: 184534747}
   - {fileID: 91636894}
-  - {fileID: 103714415}
   - {fileID: 2118377497}
   - {fileID: 1012666430}
   m_Father: {fileID: 0}
@@ -12493,8 +12479,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -14411,7 +14397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.98039216}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14515,8 +14501,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -14732,7 +14718,7 @@ GameObject:
   - component: {fileID: 2064003745}
   - component: {fileID: 2064003746}
   m_Layer: 5
-  m_Name: HowToUseEscape
+  m_Name: HowToEscape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
